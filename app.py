@@ -6,26 +6,26 @@ import datetime
 
 page = st.sidebar.selectbox('Choose your page',['users','rooms','bookings'])
 
-def submit_request(endpoint, data):
+def submit_post_request(endpoint, data):
     url = f'http://127.0.0.1:8000/{endpoint}/'
-    res = requests.post(url, json.dumps(data))
-    st.write(res.text)
+    res:requests.Response = requests.post(url, json.dumps(data))
+    return res
 
 if page == 'users':
     st.title('API test (users)')
 
-    with st.form(key='user'):
-        user_id: int = random.randint(0,10)
+    with st.form(key='Resister a user'):
         username: str = st.text_input('username', max_chars=12)
         data = {
-            'user_id': user_id,
             'username': username
         }
-        
-        submit_button = st.form_submit_button(label='submit to make a request')
+        submit_button = st.form_submit_button(label='submit')
         
     if submit_button:
-        submit_request('users',data)
+        res = submit_post_request('users',data)
+        if res.status_code == 200:
+            st.success('the user is resistered')
+        st.json(res.json())
         
 
 elif page == 'rooms':
@@ -42,7 +42,7 @@ elif page == 'rooms':
         submit_button = st.form_submit_button(label='submit to make a request')
         
     if submit_button:
-        submit_request('rooms',data)
+        submit_post_request('rooms',data)
         
 elif page == 'bookings':
     st.title('API test (bookings)')
@@ -65,5 +65,5 @@ elif page == 'bookings':
         submit_button = st.form_submit_button(label='submit to make a request')
         
     if submit_button:
-        submit_request('bookings',data)
+        submit_post_request('bookings',data)
     
