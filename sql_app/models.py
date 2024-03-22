@@ -16,7 +16,7 @@ class Booking(Base):
     __tablename__ =  'bookings' ##create table from Base
     booking_id = Column(Integer, primary_key=True, index=True) 
     user_id = Column(Integer, ForeignKey('users.user_id',ondelete='SET NULL'), nullable=False) ## ForeignKey is to link to column from user
-    room_id = Column(Integer, ForeignKey('rooms.user_id',ondelete='SET NULL'), nullable=False) ## ForeignKey is to link to column from user
+    room_id = Column(Integer, ForeignKey('rooms.room_id',ondelete='SET NULL'), nullable=False) ## ForeignKey is to link to column from user
     booked_num = Column(Integer, nullable=False)
     start_datetime = Column(DateTime, nullable=False)
     end_datetime = Column(DateTime, nullable=False)
